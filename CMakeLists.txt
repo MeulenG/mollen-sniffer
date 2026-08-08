@@ -16,7 +16,12 @@ if(CMAKE_SIZEOF_VOID_P EQUAL 8)
 endif()
 
 # Standalone injector.
-add_executable(mollen-inject src/inject/main.cpp)
+add_executable(mollen-inject
+    src/inject/main.cpp
+    src/inject/process.cpp
+    src/inject/injector.cpp)
 
-# Payload DLL, loaded into the client by the injector.
+# Payload DLL, loaded into the client by the injector. version.lib provides
+# GetFileVersionInfo, used to read the host client's build number.
 add_library(mollen-sniff SHARED src/sniff/dllmain.cpp)
+target_link_libraries(mollen-sniff PRIVATE version)
